@@ -58,7 +58,7 @@ class App extends Component {
 	addDebit = (debit) => {
 	}
 
-	/*==================================================
+	/*
 	 * lifecycle method componentDidMount() which should include the API requests using the following endpoints:
 	 * Credits API endpoint located at https://johnnylaicode.github.io/api/credits.json
 	 * Debits API endpoint located at https://johnnylaicode.github.io/api/debits.json
@@ -72,8 +72,8 @@ class App extends Component {
 			<UserProfile userName={this.state.currentUser.userName} memberSince={this.state.currentUser.memberSince} />
 		)
 		const LogInComponent = () => (<LogIn user={this.state.currentUser} mockLogIn={this.mockLogIn} />)
-		const CreditsComponent = () => (<Credits credits={this.state.creditList} />)
-		const DebitsComponent = () => (<Debits debits={this.state.debitList} />)
+		const CreditsComponent = () => (<Credits credits={this.state.credits} />)
+		const DebitsComponent = () => (<Debits debits={this.state.debits} />)
 
 		// Important: Include the "basename" in Router, which is needed for deploying the React app to GitHub Pages
 		return (
