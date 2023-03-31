@@ -22,8 +22,8 @@ class App extends Component {
 			creditList: [],
 			debitList: [],
 			currentUser: {
-				userName: 'Joe Smith Test',
-				memberSince: '11/22/99',
+				userName: 'Joe Smith',
+				memberSince: '11/22/23',
 			}
 		};
 	}
@@ -49,7 +49,7 @@ class App extends Component {
 
 		// Important: Include the "basename" in Router, which is needed for deploying the React app to GitHub Pages
 		return (
-			<Router basename="/bank-of-react">
+			<Router basename="/assignment4-bank-of-react">
 				<div>
 					<Route exact path="/" render={HomeComponent} />
 					<Route exact path="/userProfile" render={UserProfileComponent} />

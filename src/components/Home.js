@@ -24,6 +24,8 @@ class Home extends Component {
                 <Link to="/debits">Debits (to be implemented in the Assignment)</Link>
                 <br /><br />
                 <AccountBalance accountBalance={this.props.accountBalance} />
+
+                {console.log(this.props)}
             </div>
         );
     }
