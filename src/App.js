@@ -19,8 +19,8 @@ class App extends Component {
 		super();
 		this.state = {
 			accountBalance: 1234567.89,
-			creditList: [],
-			debitList: [],
+			credits: [],
+			debits: [],
 			currentUser: {
 				userName: 'Joe Smith',
 				memberSince: '11/22/23',
@@ -35,6 +35,35 @@ class App extends Component {
 		this.setState({ currentUser: newUser })
 	}
 
+	/*
+	 * Making the Account Balance Dynamic:
+
+	 * GIVEN I am on any page that displays the Account Balance
+	 * WHEN I view the Account Balance display area
+	 * THEN I shall see an Account Balance that accurately represents my total Debits subtracted from my total Credits
+	 * AND I shall be able to see a negative account balance if I have more Debits than Credits
+	 * AND all amounts are rounded to 2 decimal places (i.e., 1234567.89)
+	 * 
+	 * How to Calculate Account Balance:
+	 * 
+	 * Account Balance is the difference between total Credits amount and total Debits amount.
+	 * The mathematical formula is: Account Balance = total Credits - total Debits
+	 */
+
+	// add credit
+	addCredit = (credit) => {
+	}
+
+	// add debit
+	addDebit = (debit) => {
+	}
+
+	/*==================================================
+	 * lifecycle method componentDidMount() which should include the API requests using the following endpoints:
+	 * Credits API endpoint located at https://johnnylaicode.github.io/api/credits.json
+	 * Debits API endpoint located at https://johnnylaicode.github.io/api/debits.json
+	 */
+
 	// Create Routes and React elements to be rendered using React components
 	render() {
 		// Create React elements and pass input props to components
@@ -45,7 +74,6 @@ class App extends Component {
 		const LogInComponent = () => (<LogIn user={this.state.currentUser} mockLogIn={this.mockLogIn} />)
 		const CreditsComponent = () => (<Credits credits={this.state.creditList} />)
 		const DebitsComponent = () => (<Debits debits={this.state.debitList} />)
-		const TestComponent = () => (<h1>Test Component</h1>)
 
 		// Important: Include the "basename" in Router, which is needed for deploying the React app to GitHub Pages
 		return (
@@ -56,7 +84,6 @@ class App extends Component {
 					<Route exact path="/login" render={LogInComponent} />
 					<Route exact path="/credits" render={CreditsComponent} />
 					<Route exact path="/debits" render={DebitsComponent} />
-					<Route exact path="/test" render={TestComponent} />
 				</div>
 			</Router>
 		);
