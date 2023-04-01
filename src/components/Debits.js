@@ -4,6 +4,7 @@ src/components/Debits.js
 The Debits component contains information for Debits page view.
 Note: You need to work on this file for the Assignment.
 ==================================================*/
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 /*
@@ -36,31 +37,55 @@ THEN I shall see my Account Balance displayed
 AND all amounts are rounded to 2 decimal places (e.g., 1234567.89)
 */
 
-const Debits = (props) => {
+class Debits extends Component {
+    constructor(props) {
+        super(props);
+
+        // Initialize the state
+        this.state = {
+            debits: this.props.debits
+        }
+    }
+
+    // Handle the form submission
+    handleSubmit = (e) => {
+        e.preventDefault();
+        let description = e.target.description.value;
+        let amount = e.target.amount.value;
+        let date = new Date().toISOString();
+        this.props.addDebit(amount, description, date);
+
+        // reset the form
+        e.target.description.value = "";
+        e.target.amount.value = "";
+    }
+
     // Create the list of Debit items
-    let debitsView = () => {
-        const { debits } = props;
+    debitsView = () => {
+        const { debits } = this.state;
         return debits.map((debit) => {  // Extract "id", "amount", "description" and "date" properties of each debits JSON array element
             let date = debit.date.slice(0, 10);
             return <li key={debit.id}>{debit.amount} {debit.description} {date}</li>
         });
     }
-    // Render the list of Debit items and a form to input new Debit item
-    return (
-        <div>
-            <h1>Debits</h1>
 
-            {debitsView()}
+    render() {
+        return (
+            <div>
+                <h1>Debits</h1>
 
-            <form onSubmit={props.addDebit}>
-                <input type="text" name="description" />
-                <input type="number" name="amount" />
-                <button type="submit">Add Debit</button>
-            </form>
-            <br />
-            <Link to="/">Return to Home</Link>
-        </div>
-    );
+                {this.debitsView()}
+
+                <form onSubmit={this.handleSubmit}>
+                    <input type="text" name="description" />
+                    <input type="number" name="amount" />
+                    <button type="submit">Add Debit</button>
+                </form>
+                <br />
+                <Link to="/">Return to Home</Link>
+            </div>
+        )
+    }
 }
 
 export default Debits;
