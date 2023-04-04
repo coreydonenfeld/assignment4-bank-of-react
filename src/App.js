@@ -104,7 +104,7 @@ class App extends Component {
 
 	// Create Routes and React elements to be rendered using React components
 	render() {
-		// Create React elements and pass input props to components
+		// Create React elements and pass input props to components.
 		const HomeComponent = () => (<Home accountBalance={this.state.accountBalance} />)
 		const UserProfileComponent = () => (
 			<UserProfile userName={this.state.currentUser.userName} memberSince={this.state.currentUser.memberSince} />
@@ -113,7 +113,7 @@ class App extends Component {
 		const CreditsComponent = () => (<Credits credits={this.state.credits} />)
 		const DebitsComponent = () => (<Debits debits={this.state.debits} addDebit={this.addDebit} />)
 
-		// Important: Include the "basename" in Router, which is needed for deploying the React app to GitHub Pages
+		// Return all routes.
 		return (
 			<Router basename="/assignment4-bank-of-react">
 				<div>

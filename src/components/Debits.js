@@ -53,6 +53,13 @@ class Debits extends Component {
         let description = e.target.description.value;
         let amount = e.target.amount.value;
         let date = new Date().toISOString();
+
+        // validation: amount must be a number, and description must not be empty
+        if (isNaN(amount) || description === "") {
+            alert("Please enter a valid amount and description.");
+            return;
+        }
+
         this.props.addDebit(amount, description, date);
 
         // reset the form
