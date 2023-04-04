@@ -6,6 +6,7 @@ Note: You need to work on this file for the Assignment.
 ==================================================*/
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import AccountBalance from './AccountBalance';
 
 /*
 Viewing the Debits Page:
@@ -90,7 +91,9 @@ class Debits extends Component {
                 </form>
                 <br />
                 <Link to="/">Return to Home</Link>
-            </div>
+
+                <AccountBalance accountBalance={this.props.accountBalance} />
+            </div>            
         )
     }
 }
