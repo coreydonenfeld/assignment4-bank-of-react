@@ -105,13 +105,21 @@ class App extends Component {
 	// Create Routes and React elements to be rendered using React components
 	render() {
 		// Create React elements and pass input props to components.
-		const HomeComponent = () => (<Home accountBalance={this.state.accountBalance} />)
+		const HomeComponent = () => (
+			<Home accountBalance={this.state.accountBalance} />
+		)
 		const UserProfileComponent = () => (
 			<UserProfile userName={this.state.currentUser.userName} memberSince={this.state.currentUser.memberSince} />
 		)
-		const LogInComponent = () => (<LogIn user={this.state.currentUser} mockLogIn={this.mockLogIn} />)
-		const CreditsComponent = () => (<Credits credits={this.state.credits} />)
-		const DebitsComponent = () => (<Debits debits={this.state.debits} addDebit={this.addDebit} accountBalance={this.state.accountBalance} />)
+		const LogInComponent = () => (
+			<LogIn user={this.state.currentUser} mockLogIn={this.mockLogIn} />
+		)
+		const CreditsComponent = () => (
+			<Credits credits={this.state.credits} />
+		)
+		const DebitsComponent = () => (
+			<Debits debits={this.state.debits} addDebit={this.addDebit} accountBalance={this.state.accountBalance} updateAccountBalance={this.updateAccountBalance} />
+		)
 
 		// Return all routes.
 		return (

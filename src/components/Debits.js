@@ -48,29 +48,52 @@ class Debits extends Component {
         }
     }
 
-    // Handle the form submission
+    /**
+     * Handle the form submission.
+     * 
+     * @param {Event} e 
+     * @returns {void}
+     */
     handleSubmit = (e) => {
         e.preventDefault();
+
+        // Get the form data.
         let description = e.target.description.value;
         let amount = e.target.amount.value;
         let date = new Date().toISOString();
 
-        // validation: amount must be a number, and description must not be empty
-        if (isNaN(amount) || description === "") {
-            alert("Please enter a valid amount and description.");
+        // Trim the description and parse the amount as a float
+        description = description.trim();
+        amount = parseFloat(amount);
+
+        // Validation checks.
+        if (isNaN(amount)) {
+            alert("Please enter a valid amount.");
             return;
         }
 
-        this.props.addDebit(amount, description, date);
+        if (amount < 0) {
+            alert("Please enter a positive amount.");
+            return;
+        }
 
-        // reset the form
+        if (description === "") {
+            alert("Please enter a description.");
+            return;
+        }
+
+        // Use helper functions.
+        this.props.addDebit(amount, description, date);
+        this.props.updateAccountBalance();
+
+        // Reset the form values.
         e.target.description.value = "";
         e.target.amount.value = "";
     }
 
     // Create the list of Debit items
     debitsView = () => {
-        const { debits } = this.state;
+        const debits = this.state.debits;
         return debits.map((debit) => {  // Extract "id", "amount", "description" and "date" properties of each debits JSON array element
             let date = debit.date.slice(0, 10);
             return <li key={debit.id}>{debit.amount} {debit.description} {date}</li>
