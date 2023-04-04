@@ -18,7 +18,7 @@ class App extends Component {
 	constructor() {  // Create and initialize state
 		super();
 		this.state = {
-			accountBalance: 1234567.89,
+			accountBalance: 0,
 			credits: [],
 			debits: [],
 			currentUser: {
@@ -50,8 +50,23 @@ class App extends Component {
 	 * The mathematical formula is: Account Balance = total Credits - total Debits
 	 */
 
+	updateAccountBalance = () => {
+		let accountBalance = 0;
+		let creditsAmount = 0 //this.getCreditsAmount();
+		let debitsAmount = this.getDebitsAmount();
+		accountBalance = creditsAmount - debitsAmount;
+		// round 2 decimal places
+		accountBalance = Math.round(accountBalance * 100) / 100;
+		// Update state's accountBalance
+		this.setState({ accountBalance: accountBalance });
+		return accountBalance;
+	}
+
 	// add credit
 	addCredit = (credit) => {
+	}
+
+	getCredit = (id) => {
 	}
 
 	// add debit
@@ -65,6 +80,20 @@ class App extends Component {
 		let debits = this.state.debits;
 		debits.push(debit);
 		this.setState({ debits: debits });
+	}
+
+	getDebitsAmount = () => {
+		let debitsAmount = 0;
+		this.state.debits.forEach((debit) => {
+			debitsAmount += debit.amount;
+		});
+		return debitsAmount;
+	}
+
+	getDebit = (id) => {
+		this.state.debits.find((debit) => {
+			return debit.id === id;
+		});
 	}
 
 	/*
