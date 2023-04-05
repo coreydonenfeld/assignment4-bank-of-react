@@ -70,9 +70,18 @@ class App extends Component {
 	}
 
 	// add debit
-	addDebit = (amount, description, date) => {
+	addDebit = (amount, description, date, id = 0) => {
+		if (id === 0) {
+			id = this.state.debits.length + 1;
+		}
+
+		// Prevent duplicate id.
+		if (typeof this.getDebit(parseInt(id)) !== 'undefined') {
+			return false;
+		}
+
 		let debit = {
-			id: this.state.debits.length + 1,
+			id: id,
 			amount: amount,
 			description: description,
 			date: date
@@ -91,9 +100,10 @@ class App extends Component {
 	}
 
 	getDebit = (id) => {
-		this.state.debits.find((debit) => {
+		let debit = this.state.debits.find((debit) => {
 			return debit.id === id;
 		});
+		return debit;
 	}
 
 	/*
@@ -118,7 +128,12 @@ class App extends Component {
 			<Credits credits={this.state.credits} />
 		)
 		const DebitsComponent = () => (
-			<Debits debits={this.state.debits} addDebit={this.addDebit} accountBalance={this.state.accountBalance} updateAccountBalance={this.updateAccountBalance} />
+			<Debits
+				debits={this.state.debits}
+				addDebit={this.addDebit}
+				accountBalance={this.state.accountBalance}
+				updateAccountBalance={this.updateAccountBalance}
+			/>
 		)
 
 		// Return all routes.
