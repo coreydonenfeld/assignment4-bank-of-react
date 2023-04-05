@@ -57,7 +57,6 @@ class Debits extends Component {
 
         try {
             let response = await axios.get(endpointURL);
-            console.log(response.data);
             response.data.forEach((debit) => {
                 this.props.addDebit(debit.amount, debit.description, debit.date, debit.id);
             })
@@ -98,7 +97,7 @@ class Debits extends Component {
         }
 
         if (amount < 0) {
-            alert("Please enter a positive amount.");
+            alert("Please enter a positive amount. A negative debit is a credit ;)");
             return;
         }
 

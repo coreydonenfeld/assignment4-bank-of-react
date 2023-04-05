@@ -55,10 +55,13 @@ class App extends Component {
 		let creditsAmount = 0 //this.getCreditsAmount();
 		let debitsAmount = this.getDebitsAmount();
 		accountBalance = creditsAmount - debitsAmount;
+
 		// round 2 decimal places
 		accountBalance = Math.round(accountBalance * 100) / 100;
+
 		// Update state's accountBalance
 		this.setState({ accountBalance: accountBalance });
+		
 		return accountBalance;
 	}
 
