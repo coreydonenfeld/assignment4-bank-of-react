@@ -100,8 +100,12 @@ class Debits extends Component {
             return;
         }
 
-        if (amount < 0) {
-            alert("Please enter a positive amount. A negative debit is a credit ;)");
+        if (amount <= 0) {
+            if (amount === 0) {
+                alert("Please enter a non-zero amount.");
+            } else {
+                alert("Please enter a positive number. A negative debit is a credit ;)");
+            }
             return;
         }
 
