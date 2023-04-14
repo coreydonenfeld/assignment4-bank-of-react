@@ -45,7 +45,8 @@ class Debits extends Component {
 
         // Initialize the state
         this.state = {
-            debits: this.props.debits
+            debits: this.props.debits,
+            sortBy: this.props.debitsSortBy
         }
     }
 
@@ -65,6 +66,7 @@ class Debits extends Component {
                 this.props.addDebit(debit.amount, debit.description, debit.date, debit.id);
             })
             this.props.updateAccountBalance();
+            this.props.sortDebits();
         } 
         catch (error) {
             if (error.response) {
@@ -117,10 +119,17 @@ class Debits extends Component {
         // Use helper functions.
         this.props.addDebit(amount, description, date);
         this.props.updateAccountBalance();
+        this.props.sortDebits();
 
         // Reset the form values.
         e.target.description.value = "";
         e.target.amount.value = "";
+    }
+
+    handleSorting = (e) => {
+        e.preventDefault();
+        let sortBy = e.target.value;
+        this.props.sortDebits(sortBy);
     }
 
     // Create the list of Debit items
@@ -150,7 +159,7 @@ class Debits extends Component {
                     <h1>Debits</h1>
 
                     <section className="add-debit">
-                        <h2>Add Debit</h2>
+                        <h2 className="heading-4">Add Debit</h2>
                         <form onSubmit={this.handleSubmit}>
                             <div className="form-input-wrapper">
                                 <label htmlFor="description">Description</label>
@@ -158,14 +167,25 @@ class Debits extends Component {
                             </div>
                             <div className="form-input-wrapper">
                                 <label htmlFor="amount">Amount</label>
-                                <input type="number" name="amount" />
+                                <input type="number" name="amount" min="1" />
                             </div>
                             <button type="submit" className="btn primary">Add Debit</button>
                         </form>
                     </section>
                     
                     <section className="view-debits">
-                        <h2>View Debits</h2>
+                        <h2 className="heading-4">View Debits</h2>
+                        <form className="sorting">
+                            <label htmlFor="sort">Sort by:</label>
+                            <select name="sort" id="sort" onChange={this.handleSorting} defaultValue={this.state.sortBy}>
+                                <option value="date-desc">Date (Oldest to Newest)</option>
+                                <option value="date-asc">Date (Newest to Oldest)</option>
+                                <option value="amount-asc">Amount (Lowest to Highest)</option>
+                                <option value="amount-desc">Amount (Highest to Lowest)</option>
+                                <option value="ID">ID</option>
+                            </select>
+
+                        </form>
                         <ul>
                             {this.debitsView()}
                         </ul>

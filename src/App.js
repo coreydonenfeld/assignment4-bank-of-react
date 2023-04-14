@@ -21,6 +21,7 @@ class App extends Component {
 			accountBalance: 0,
 			credits: [],
 			debits: [],
+			debitsSortBy: 'amount-asc',
 			currentUser: {
 				userName: 'Joe Smith',
 				memberSince: '11/22/23',
@@ -109,6 +110,46 @@ class App extends Component {
 		return debit;
 	}
 
+	sortDebits = (sortBy = false) => {
+		// Default sort by to the current state's debitsSortBy.
+		if (sortBy === false) {
+			sortBy = this.state.debitsSortBy;
+		}
+
+		let debits = this.state.debits;
+		switch (sortBy) {
+            case 'date-asc':
+                debits.sort((a, b) => {
+                    return new Date(b.date) - new Date(a.date);
+                });
+                break;
+            case 'date-desc':
+                debits.sort((a, b) => {
+					return new Date(a.date) - new Date(b.date);
+                });
+                break;
+            case 'amount-asc':
+                debits.sort((a, b) => {
+                    return a.amount - b.amount;
+                });
+                break;
+            case 'amount-desc':
+                debits.sort((a, b) => {
+                    return b.amount - a.amount;
+                });
+                break;
+			case 'ID':
+				debits.sort((a, b) => {
+					return a.id - b.id;
+				});
+				break;
+            default:
+                break;
+        }
+
+		this.setState({ debits: debits, debitsSortBy: sortBy });
+	}
+
 	/*
 	 * lifecycle method componentDidMount() which should include the API requests using the following endpoints:
 	 * Credits API endpoint located at https://johnnylaicode.github.io/api/credits.json
@@ -133,7 +174,9 @@ class App extends Component {
 		const DebitsComponent = () => (
 			<Debits
 				debits={this.state.debits}
+				debitsSortBy={this.state.debitsSortBy}
 				addDebit={this.addDebit}
+				sortDebits={this.sortDebits}
 				accountBalance={this.state.accountBalance}
 				updateAccountBalance={this.updateAccountBalance}
 			/>

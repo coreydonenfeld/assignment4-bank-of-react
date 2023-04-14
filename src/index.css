@@ -115,9 +115,12 @@ ol {
 	
 }
 
-.eyebrow {
+.eyebrow,
+label {
 	display: block;
 	text-transform: uppercase;
+	font: 600 calc(14rem / 16)/calc(18 / 14) var(--body-font);
+	letter-spacing: 1.5px;
 }
 
 header, 
