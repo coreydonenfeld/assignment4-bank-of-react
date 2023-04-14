@@ -149,18 +149,22 @@ class Debits extends Component {
                 <div className="container">
                     <h1>Debits</h1>
 
-                    <section>
+                    <section className="add-debit">
                         <h2>Add Debit</h2>
                         <form onSubmit={this.handleSubmit}>
-                            <label htmlFor="description">Description</label>
-                            <input type="text" name="description" />
-                            <label htmlFor="amount">Amount</label>
-                            <input type="number" name="amount" />
+                            <div className="form-input-wrapper">
+                                <label htmlFor="description">Description</label>
+                                <input type="text" name="description" />
+                            </div>
+                            <div className="form-input-wrapper">
+                                <label htmlFor="amount">Amount</label>
+                                <input type="number" name="amount" />
+                            </div>
                             <button type="submit" className="btn primary">Add Debit</button>
                         </form>
                     </section>
                     
-                    <section>
+                    <section className="view-debits">
                         <h2>View Debits</h2>
                         <ul>
                             {this.debitsView()}

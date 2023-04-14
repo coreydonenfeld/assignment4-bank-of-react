@@ -81,27 +81,27 @@ h6,
 
 h1,
 .heading-1 {
-	
+	font: 700 calc(50rem / 16)/calc(62 / 50) var(--body-font);
 }
 
 h2,
 .heading-2 {
-	
+	font: 700 calc(40rem / 16)/calc(50 / 40) var(--body-font);
 }
 
 h3,
 .heading-3 {
-	
+	font: 700 calc(32rem / 16)/calc(42 / 32) var(--body-font);
 }
 
 h4,
 .heading-4 {
-	
+	font: 600 calc(28rem / 16)/calc(38 / 28) var(--body-font);
 }
 
 h5,
 .heading-5 {
-	
+	font: 700 calc(20rem / 16)/calc(28 / 20) var(--mono-font);
 }
 
 h6,
