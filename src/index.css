@@ -14,7 +14,13 @@
 
 :root {
   	--white: #fff;
-  	--black: #000;
+	--off-white: #f9faff;
+  	--black: #091230;
+	--blue: #274cc6;
+	--gray-light: #f2f2f2;
+	--gray-medium: #e0e0e0;
+	--gray-dark: #c4c4c4;
+	--gray-darker: #a8a8a8;
   	--body-font: 'Anuphan', Arial, Helvetica, sans-serif;
 	--heading-font: Arial, Helvetica, sans-serif;
     --mono-font: 'DM Mono', monospace;
@@ -25,6 +31,15 @@
 	--viewport-edge: calc((var(--container-outer-margin) + var(--container-outer-padding)) * -1);
 	--gap: 40px;
 	--grid: repeat(12,1fr);
+	--padding-xs: 20px;
+	--padding-s: 40px;
+	--padding-m: 60px;
+	--padding-l: 80px;
+	--padding-xl: 120px;
+	--padding-xxl: 160px;
+	--shadow-s: 0 0 10px rgba(0,0,0,.1);
+	--shadow-m: 0 8px 32px rgba(0,0,0,.1);
+	--shadow-l: 0 0 30px rgba(0,0,0,.1);
 }
 
 html {
@@ -32,7 +47,7 @@ html {
 }
 
 body { 
-	background: var(--white);
+	background: var(--off-white);
 	color: var(--black);
 	font: 1rem var(--body-font);
 	-moz-osx-font-smoothing: grayscale;
@@ -118,9 +133,9 @@ ol {
 .eyebrow,
 label {
 	display: block;
-	text-transform: uppercase;
 	font: 600 calc(14rem / 16)/calc(18 / 14) var(--body-font);
 	letter-spacing: 1.5px;
+	text-transform: uppercase;
 }
 
 header, 
@@ -207,18 +222,37 @@ article {
 	
 }
 
+/*Primary*/
+
+.btn.primary {
+	background: var(--blue);
+	color: var(--white);
+	font: 600 calc(14rem / 16)/calc(18 / 14) var(--mono-font);
+	border: 1px solid var(--blue);
+	padding: 10px 18px;
+	border-radius: 4px;
+}
+
 /***Form Styles***/
 
 input[type=email],
 input[type=text],
 input[type=tel],
+input[type=number],
 select,
 textarea {
+	appearance: none;
+	background: var(--white);
+	border: 1px solid var(--gray-medium);
+	outline: none;
+	padding: 6px 12px;
+	border-radius: 4px;
 }
 
 input[type=email]:focus,
 input[type=text]:focus,
 input[type=tel]:focus,
+input[type=number]:focus,
 select:focus,
 textarea:focus {
 	outline: none;
@@ -227,6 +261,7 @@ textarea:focus {
 input[type=email]::placeholder,
 input[type=text]::placeholder,
 input[type=tel]::placeholder,
+input[type=number]::placeholder,
 select::placeholder,
 textarea::placeholder {
 	opacity: 1;
@@ -322,11 +357,78 @@ header {
 
 /***************************************************************************************************************************************************************************************/
 
-/*HOME STYLES*/
+/*MODULE STYLES*/
 
 /***************************************************************************************************************************************************************************************/
 
-/***Hero***/
+.module {
+	padding: var(--padding-s) var(--padding-m);
+	border: 1px solid var(--gray-medium);
+	border-radius: 4px;
+}
+
+.module + .module {
+	margin-top: var(--padding-s);
+}
+
+/***************************************************************************************************************************************************************************************/
+
+/*DEBITS STYLES*/
+
+/***************************************************************************************************************************************************************************************/
+
+.view-debits {
+	align-items: center;
+	gap: 20px;
+}
+
+.view-debits h2 {
+	grid-column: span 6;
+}
+
+.view-debits .sorting {
+	align-items: center;
+	justify-content: flex-end;
+	grid-column: span 6;
+}
+
+.view-debits .sorting label {
+	margin-right: 8px;
+}
+
+.view-debits ul {
+	grid-column: -1 / 1;
+	margin: 0;
+	list-style: none;
+	padding: 0;
+}
+
+.view-debits li {
+	border-bottom: 1px solid var(--gray-medium);
+	padding: 10px 0;
+}
+
+.view-debits li:last-child {
+	border-bottom: none;
+}
+
+.view-debits dl {
+	display: grid;
+	grid-auto-columns: 1fr;
+    grid-auto-flow: row;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.view-debits dl dt {
+	font-weight: bold;
+	grid-row: 1;
+}
+
+.view-debits dl dd {
+	margin: 0;
+}
 
 /***************************************************************************************************************************************************************************************/
 

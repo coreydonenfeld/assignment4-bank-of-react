@@ -158,7 +158,7 @@ class Debits extends Component {
                 <div className="container">
                     <h1>Debits</h1>
 
-                    <section className="add-debit">
+                    <section className="add-debit module">
                         <h2 className="heading-4">Add Debit</h2>
                         <form onSubmit={this.handleSubmit}>
                             <div className="form-input-wrapper">
@@ -173,10 +173,10 @@ class Debits extends Component {
                         </form>
                     </section>
                     
-                    <section className="view-debits">
+                    <section className="view-debits module grid">
                         <h2 className="heading-4">View Debits</h2>
-                        <form className="sorting">
-                            <label htmlFor="sort">Sort by:</label>
+                        <form className="sorting flex-container">
+                            <label htmlFor="sort">Sort by</label>
                             <select name="sort" id="sort" onChange={this.handleSorting} defaultValue={this.state.sortBy}>
                                 <option value="date-desc">Date (Oldest to Newest)</option>
                                 <option value="date-asc">Date (Newest to Oldest)</option>
@@ -184,7 +184,6 @@ class Debits extends Component {
                                 <option value="amount-desc">Amount (Highest to Lowest)</option>
                                 <option value="ID">ID</option>
                             </select>
-
                         </form>
                         <ul>
                             {this.debitsView()}
