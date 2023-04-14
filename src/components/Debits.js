@@ -126,8 +126,8 @@ class Debits extends Component {
     // Create the list of Debit items
     debitsView = () => {
         const debits = this.state.debits;
-        return debits.map((debit) => {  // Extract "id", "amount", "description" and "date" properties of each debits JSON array element
-            let date = debit.date.slice(0, 10);
+        return debits.map((debit) => {
+            let date = new Date(debit.date).toISOString().slice(0, 10);
             return (
                 <li key={debit.id}>
                     <dl>
@@ -145,21 +145,33 @@ class Debits extends Component {
 
     render() {
         return (
-            <div>
-                <h1>Debits</h1>
+            <section>
+                <div className="container">
+                    <h1>Debits</h1>
 
-                {this.debitsView()}
+                    <section>
+                        <h2>Add Debit</h2>
+                        <form onSubmit={this.handleSubmit}>
+                            <label htmlFor="description">Description</label>
+                            <input type="text" name="description" />
+                            <label htmlFor="amount">Amount</label>
+                            <input type="number" name="amount" />
+                            <button type="submit" className="btn primary">Add Debit</button>
+                        </form>
+                    </section>
+                    
+                    <section>
+                        <h2>View Debits</h2>
+                        <ul>
+                            {this.debitsView()}
+                        </ul>
+                    </section>
 
-                <form onSubmit={this.handleSubmit}>
-                    <input type="text" name="description" />
-                    <input type="number" name="amount" />
-                    <button type="submit">Add Debit</button>
-                </form>
-                <br />
-                <Link to="/">Return to Home</Link>
+                    <AccountBalance accountBalance={this.props.accountBalance} />
 
-                <AccountBalance accountBalance={this.props.accountBalance} />
-            </div>            
+                    <Link to="/">Return to Home</Link>  
+                </div>
+            </section>            
         )
     }
 }
