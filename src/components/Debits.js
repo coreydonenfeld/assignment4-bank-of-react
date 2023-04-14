@@ -58,6 +58,10 @@ class Debits extends Component {
         try {
             let response = await axios.get(endpointURL);
             response.data.forEach((debit) => {
+                if (typeof debit.amount == 'undefined' || typeof debit.description == 'undefined' || typeof debit.date == 'undefined') {
+                    return;
+                }
+
                 this.props.addDebit(debit.amount, debit.description, debit.date, debit.id);
             })
             this.props.updateAccountBalance();
