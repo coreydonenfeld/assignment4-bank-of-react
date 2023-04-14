@@ -128,7 +128,18 @@ class Debits extends Component {
         const debits = this.state.debits;
         return debits.map((debit) => {  // Extract "id", "amount", "description" and "date" properties of each debits JSON array element
             let date = debit.date.slice(0, 10);
-            return <li key={debit.id}>{debit.amount} {debit.description} {date}</li>
+            return (
+                <li key={debit.id}>
+                    <dl>
+                        <dt className="eyebrow">Description</dt>
+                        <dd>{debit.description}</dd>
+                        <dt className="eyebrow">Amount</dt>
+                        <dd>${debit.amount.toFixed(2)}</dd>
+                        <dt className="eyebrow">Date</dt>
+                        <dd>{date}</dd>
+                    </dl>
+                </li>
+            );
         });
     }
 
