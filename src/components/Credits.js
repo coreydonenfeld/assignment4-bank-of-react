@@ -6,8 +6,8 @@ Note: You need to work on this file for the Assignment.
 ==================================================*/
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';  // Library used to send asynchronous HTTP requests to RESTful endpoints (APIs)
 import AccountBalance from './AccountBalance';
+import axios from 'axios';
 
 /*
 Viewing the Credits Page:
@@ -59,34 +59,6 @@ class Credits extends Component {
             sortBy: this.props.creditsSortBy
         }
     }
-
-    /**
-     * Call API endpoint to get data.
-     */
-    async componentDidMount() {
-        const endpointURL = 'https://johnnylaicode.github.io/api/credits.json';
-
-        try {
-            let response = await axios.get(endpointURL);
-            response.data.forEach((credit) => {
-                if (typeof credit.amount == 'undefined' || typeof credit.description == 'undefined' || typeof credit.date == 'undefined') {
-                    return;
-                }
-
-                this.props.addDebit(credit.amount, credit.description, credit.date, credit.id);
-            })
-            this.props.updateAccountBalance();
-            this.props.sortCredits();
-        } 
-        catch (error) {
-            if (error.response) {
-                // The request was made, and the server responded with error message and status code.
-                console.log(error.response.data); 
-                console.log(error.response.status);
-            }    
-        }
-    }  
-
 
     /**
      * Handle the form submission.
@@ -145,6 +117,7 @@ class Credits extends Component {
     // Create the list of Debit items
     creditsView = () => {
         const credits = this.state.credits;
+        console.log(credits)
         return credits.map((credit) => {
             let date = new Date(credit.date).toISOString().slice(0, 10);
             return (

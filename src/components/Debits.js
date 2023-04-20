@@ -6,8 +6,8 @@ Note: You need to work on this file for the Assignment.
 ==================================================*/
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';  // Library used to send asynchronous HTTP requests to RESTful endpoints (APIs)
 import AccountBalance from './AccountBalance';
+import axios from 'axios';
 
 /*
 Viewing the Debits Page:
@@ -49,34 +49,6 @@ class Debits extends Component {
             sortBy: this.props.debitsSortBy
         }
     }
-
-    /**
-     * Call API endpoint to get data.
-     */
-    async componentDidMount() {
-        const endpointURL = 'https://johnnylaicode.github.io/api/debits.json';
-
-        try {
-            let response = await axios.get(endpointURL);
-            response.data.forEach((debit) => {
-                if (typeof debit.amount == 'undefined' || typeof debit.description == 'undefined' || typeof debit.date == 'undefined') {
-                    return;
-                }
-
-                this.props.addDebit(debit.amount, debit.description, debit.date, debit.id);
-            })
-            this.props.updateAccountBalance();
-            this.props.sortDebits();
-        } 
-        catch (error) {
-            if (error.response) {
-                // The request was made, and the server responded with error message and status code.
-                console.log(error.response.data); 
-                console.log(error.response.status);
-            }    
-        }
-    }  
-
 
     /**
      * Handle the form submission.

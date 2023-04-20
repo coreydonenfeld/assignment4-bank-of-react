@@ -6,6 +6,7 @@ It contains the top-level state.
 ==================================================*/
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import axios from 'axios';
 
 // Import other components
 import Home from './components/Home';
@@ -29,6 +30,53 @@ class App extends Component {
 			}
 		};
 	}
+
+	 /**
+     * Call API endpoint to get data.
+     */
+	 async componentDidMount() {
+		// Get credits data from API endpoint
+		try {
+            let response = await axios.get('https://johnnylaicode.github.io/api/credits.json');
+            response.data.forEach((credit) => {
+                if (typeof credit.amount == 'undefined' || typeof credit.description == 'undefined' || typeof credit.date == 'undefined') {
+                    return;
+                }
+
+                this.addCredit(credit.amount, credit.description, credit.date, credit.id);
+            })
+            this.updateAccountBalance();
+            this.sortCredits();
+        } 
+        catch (error) {
+            if (error.response) {
+                // The request was made, and the server responded with error message and status code.
+                console.log(error.response.data); 
+                console.log(error.response.status);
+            }    
+        }
+
+		// Get debits data from API endpoint
+        try {
+            let response = await axios.get('https://johnnylaicode.github.io/api/debits.json');
+            response.data.forEach((debit) => {
+                if (typeof debit.amount == 'undefined' || typeof debit.description == 'undefined' || typeof debit.date == 'undefined') {
+                    return;
+                }
+
+                this.addDebit(debit.amount, debit.description, debit.date, debit.id);
+            })
+            this.updateAccountBalance();
+            this.sortDebits();
+        } 
+        catch (error) {
+            if (error.response) {
+                // The request was made, and the server responded with error message and status code.
+                console.log(error.response.data); 
+                console.log(error.response.status);
+            }    
+        }
+    }  
 
 	// Update state's currentUser (userName) after "Log In" button is clicked
 	mockLogIn = (logInInfo) => {
@@ -54,7 +102,7 @@ class App extends Component {
 
 	updateAccountBalance = () => {
 		let accountBalance = 0;
-		let creditsAmount = 0 //this.getCreditsAmount();
+		let creditsAmount = this.getCreditsAmount();
 		let debitsAmount = this.getDebitsAmount();
 		accountBalance = creditsAmount - debitsAmount;
 
@@ -86,7 +134,7 @@ class App extends Component {
 		};
 		let credits = this.state.credits;
 		credits.push(credit);
-		this.setState({ credits: credit });
+		this.setState({ credits: credits });
 	}
 
 	getCredit = (id) => {
