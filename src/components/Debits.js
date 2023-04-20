@@ -4,7 +4,10 @@ src/components/Debits.js
 The Debits component contains information for Debits page view.
 Note: You need to work on this file for the Assignment.
 ==================================================*/
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';  // Library used to send asynchronous HTTP requests to RESTful endpoints (APIs)
+import AccountBalance from './AccountBalance';
 
 /*
 Viewing the Debits Page:
@@ -36,31 +39,166 @@ THEN I shall see my Account Balance displayed
 AND all amounts are rounded to 2 decimal places (e.g., 1234567.89)
 */
 
-const Debits = (props) => {
+class Debits extends Component {
+    constructor(props) {
+        super(props);
+
+        // Initialize the state
+        this.state = {
+            debits: this.props.debits,
+            sortBy: this.props.debitsSortBy
+        }
+    }
+
+    /**
+     * Call API endpoint to get data.
+     */
+    async componentDidMount() {
+        const endpointURL = 'https://johnnylaicode.github.io/api/debits.json';
+
+        try {
+            let response = await axios.get(endpointURL);
+            response.data.forEach((debit) => {
+                if (typeof debit.amount == 'undefined' || typeof debit.description == 'undefined' || typeof debit.date == 'undefined') {
+                    return;
+                }
+
+                this.props.addDebit(debit.amount, debit.description, debit.date, debit.id);
+            })
+            this.props.updateAccountBalance();
+            this.props.sortDebits();
+        } 
+        catch (error) {
+            if (error.response) {
+                // The request was made, and the server responded with error message and status code.
+                console.log(error.response.data); 
+                console.log(error.response.status);
+            }    
+        }
+    }  
+
+
+    /**
+     * Handle the form submission.
+     * 
+     * @param {Event} e 
+     * @returns {void}
+     */
+    handleSubmit = (e) => {
+        e.preventDefault();
+
+        // Get the form data.
+        let description = e.target.description.value;
+        let amount = e.target.amount.value;
+        let date = new Date().toISOString();
+
+        // Trim the description and parse the amount as a float
+        description = description.trim();
+        amount = parseFloat(amount);
+
+        // Validation checks.
+        if (isNaN(amount)) {
+            alert("Please enter a valid amount.");
+            return;
+        }
+
+        if (amount <= 0) {
+            if (amount === 0) {
+                alert("Please enter a non-zero amount.");
+            } else {
+                alert("Please enter a positive number. A negative debit is a credit ;)");
+            }
+            return;
+        }
+
+        if (description === "") {
+            alert("Please enter a description.");
+            return;
+        }
+
+        // Use helper functions.
+        this.props.addDebit(amount, description, date);
+        this.props.updateAccountBalance();
+        this.props.sortDebits();
+
+        // Reset the form values.
+        e.target.description.value = "";
+        e.target.amount.value = "";
+    }
+
+    handleSorting = (e) => {
+        e.preventDefault();
+        let sortBy = e.target.value;
+        this.props.sortDebits(sortBy);
+    }
+
     // Create the list of Debit items
-    let debitsView = () => {
-        const { debits } = props;
-        return debits.map((debit) => {  // Extract "id", "amount", "description" and "date" properties of each debits JSON array element
-            let date = debit.date.slice(0, 10);
-            return <li key={debit.id}>{debit.amount} {debit.description} {date}</li>
+    debitsView = () => {
+        const debits = this.state.debits;
+        return debits.map((debit) => {
+            let date = new Date(debit.date).toISOString().slice(0, 10);
+            return (
+                <li key={debit.id}>
+                    <dl>
+                        <dt className="eyebrow">Description</dt>
+                        <dd>{debit.description}</dd>
+                        <dt className="eyebrow">Amount</dt>
+                        <dd>${debit.amount.toFixed(2)}</dd>
+                        <dt className="eyebrow">Date</dt>
+                        <dd>{date}</dd>
+                    </dl>
+                </li>
+            );
         });
     }
-    // Render the list of Debit items and a form to input new Debit item
-    return (
-        <div>
-            <h1>Debits</h1>
 
-            {debitsView()}
+    render() {
+        return (
+            <div>
+                <div className="container">
+                    <h1>Debits</h1>
 
-            <form onSubmit={props.addDebit}>
-                <input type="text" name="description" />
-                <input type="number" name="amount" />
-                <button type="submit">Add Debit</button>
-            </form>
-            <br />
-            <Link to="/">Return to Home</Link>
-        </div>
-    );
+                    <AccountBalance accountBalance={this.props.accountBalance} />
+
+                    <div className="modules grid">
+                        <section className="add-debit module">
+                            <h2 className="heading-4">Add Debit</h2>
+                            <form onSubmit={this.handleSubmit} className="grid">
+                                <div className="form-input-wrapper">
+                                    <label htmlFor="description">Description</label>
+                                    <input type="text" name="description" />
+                                </div>
+                                <div className="form-input-wrapper">
+                                    <label htmlFor="amount">Amount</label>
+                                    <input type="number" name="amount" min="1" step="0.01" />
+                                </div>
+                                <button type="submit" className="btn primary">Add Debit</button>
+                            </form>
+                        </section>
+                        
+                        <section className="view-debits module grid">
+                            <h2 className="heading-4">View Debits</h2>
+                            <form className="sorting flex-container">
+                                <label htmlFor="sort">Sort by</label>
+                                <select name="sort" id="sort" onChange={this.handleSorting} defaultValue={this.state.sortBy}>
+                                    <option value="date-desc">Date (Oldest to Newest)</option>
+                                    <option value="date-asc">Date (Newest to Oldest)</option>
+                                    <option value="amount-asc">Amount (Lowest to Highest)</option>
+                                    <option value="amount-desc">Amount (Highest to Lowest)</option>
+                                    <option value="ID">ID</option>
+                                </select>
+                            </form>
+                            <ul>
+                                {this.debitsView()}
+                            </ul>
+                        </section>
+                    </div>
+
+                    <Link to="/" className="btn secondary">Return to Home</Link>  
+                </div>
+            </div>            
+        )
+    }
 }
 
 export default Debits;
