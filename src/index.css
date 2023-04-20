@@ -17,6 +17,7 @@
 	--off-white: #f9faff;
   	--black: #091230;
 	--blue: #274cc6;
+	--blue-dark: #1a3b9a;
 	--gray-light: #f2f2f2;
 	--gray-medium: #e0e0e0;
 	--gray-dark: #c4c4c4;
@@ -31,7 +32,8 @@
 	--viewport-edge: calc((var(--container-outer-margin) + var(--container-outer-padding)) * -1);
 	--gap: 40px;
 	--grid: repeat(12,1fr);
-	--padding-xs: 20px;
+	--padding-xxs: 20px;
+	--padding-xs: 30px;
 	--padding-s: 40px;
 	--padding-m: 60px;
 	--padding-l: 80px;
@@ -117,6 +119,7 @@ h4,
 h5,
 .heading-5 {
 	font: 700 calc(20rem / 16)/calc(28 / 20) var(--mono-font);
+	letter-spacing: .8px;
 }
 
 h6,
@@ -230,10 +233,51 @@ article {
 	font: 600 calc(14rem / 16)/calc(18 / 14) var(--mono-font);
 	border: 1px solid var(--blue);
 	padding: 10px 18px;
+	letter-spacing: .6px;
 	border-radius: 4px;
 }
 
+.btn.primary:hover {
+	background: var(--blue-dark);
+	border: 1px solid var(--blue-dark);
+}
+
+/*Secondary*/
+
+.btn.secondary {
+	color: var(--blue);
+	font: 600 calc(14rem / 16)/calc(18 / 14) var(--mono-font);
+	border: none;
+	text-decoration: underline;
+	text-underline-offset: 6px;
+	text-decoration-thickness: 2px;
+	background: transparent;
+	letter-spacing: .6px;
+}
+
+.btn.secondary:hover {
+	color: var(--blue-dark);
+}
+
 /***Form Styles***/
+
+form {
+	justify-content: flex-start;
+	gap: var(--padding-xs);
+}
+
+form .form-input-wrapper {
+	width: 100%;
+}
+
+form .form-input-wrapper label {
+	display: block;
+	margin-bottom: 6px;
+}
+
+form .form-input-wrapper input {
+	width: 100%;
+}
 
 input[type=email],
 input[type=text],
@@ -245,8 +289,17 @@ textarea {
 	background: var(--white);
 	border: 1px solid var(--gray-medium);
 	outline: none;
-	padding: 6px 12px;
+	padding: 8px 12px;
 	border-radius: 4px;
+}
+
+input[type=email]:hover,
+input[type=text]:hover,
+input[type=tel]:hover,
+input[type=number]:hover,
+select:hover,
+textarea:hover {
+	border-color: var(--gray-dark);
 }
 
 input[type=email]:focus,
@@ -256,6 +309,7 @@ input[type=number]:focus,
 select:focus,
 textarea:focus {
 	outline: none;
+	border-color: var(--blue);
 }
 
 input[type=email]::placeholder,
@@ -361,14 +415,18 @@ header {
 
 /***************************************************************************************************************************************************************************************/
 
-.module {
-	padding: var(--padding-s) var(--padding-m);
+.modules {
+	align-items: flex-start;
+	padding: var(--gap);
 	border: 1px solid var(--gray-medium);
 	border-radius: 4px;
 }
 
-.module + .module {
-	margin-top: var(--padding-s);
+.module {
+	padding: var(--padding-xs) var(--padding-s) var(--padding-s);
+	border: 1px solid var(--gray-medium);
+	border-radius: 4px;
+	background: var(--white);
 }
 
 /***************************************************************************************************************************************************************************************/
@@ -377,9 +435,32 @@ header {
 
 /***************************************************************************************************************************************************************************************/
 
+/***Add Debit***/
+
+.add-debit {
+	grid-column: span 4;
+}
+
+.add-debit h2 {
+	margin-bottom: 20px;
+}
+
+.add-debit form.grid {
+	grid-template-columns: 1fr;
+	gap: var(--padding-xxs);
+	align-items: flex-end;
+}
+
+.add-debit form.grid .btn.primary {
+	margin-top: 10px;
+}
+
+/***View Debits***/
+
 .view-debits {
 	align-items: center;
 	gap: 20px;
+	grid-column: 5 / -1;
 }
 
 .view-debits h2 {
@@ -390,17 +471,17 @@ header {
 	align-items: center;
 	justify-content: flex-end;
 	grid-column: span 6;
-}
-
-.view-debits .sorting label {
-	margin-right: 8px;
+	gap: 10px;
 }
 
 .view-debits ul {
 	grid-column: -1 / 1;
 	margin: 0;
 	list-style: none;
-	padding: 0;
+	padding: 10px var(--padding-xs);
+	border: 1px solid var(--gray-medium);
+	background: var(--white);
+	border-radius: 4px;
 }
 
 .view-debits li {

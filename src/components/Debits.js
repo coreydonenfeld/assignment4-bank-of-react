@@ -154,47 +154,49 @@ class Debits extends Component {
 
     render() {
         return (
-            <section>
+            <div>
                 <div className="container">
                     <h1>Debits</h1>
 
-                    <section className="add-debit module">
-                        <h2 className="heading-4">Add Debit</h2>
-                        <form onSubmit={this.handleSubmit}>
-                            <div className="form-input-wrapper">
-                                <label htmlFor="description">Description</label>
-                                <input type="text" name="description" />
-                            </div>
-                            <div className="form-input-wrapper">
-                                <label htmlFor="amount">Amount</label>
-                                <input type="number" name="amount" min="1" />
-                            </div>
-                            <button type="submit" className="btn primary">Add Debit</button>
-                        </form>
-                    </section>
-                    
-                    <section className="view-debits module grid">
-                        <h2 className="heading-4">View Debits</h2>
-                        <form className="sorting flex-container">
-                            <label htmlFor="sort">Sort by</label>
-                            <select name="sort" id="sort" onChange={this.handleSorting} defaultValue={this.state.sortBy}>
-                                <option value="date-desc">Date (Oldest to Newest)</option>
-                                <option value="date-asc">Date (Newest to Oldest)</option>
-                                <option value="amount-asc">Amount (Lowest to Highest)</option>
-                                <option value="amount-desc">Amount (Highest to Lowest)</option>
-                                <option value="ID">ID</option>
-                            </select>
-                        </form>
-                        <ul>
-                            {this.debitsView()}
-                        </ul>
-                    </section>
-
                     <AccountBalance accountBalance={this.props.accountBalance} />
 
-                    <Link to="/">Return to Home</Link>  
+                    <div className="modules grid">
+                        <section className="add-debit module">
+                            <h2 className="heading-4">Add Debit</h2>
+                            <form onSubmit={this.handleSubmit} className="grid">
+                                <div className="form-input-wrapper">
+                                    <label htmlFor="description">Description</label>
+                                    <input type="text" name="description" />
+                                </div>
+                                <div className="form-input-wrapper">
+                                    <label htmlFor="amount">Amount</label>
+                                    <input type="number" name="amount" min="1" step="0.01" />
+                                </div>
+                                <button type="submit" className="btn primary">Add Debit</button>
+                            </form>
+                        </section>
+                        
+                        <section className="view-debits module grid">
+                            <h2 className="heading-4">View Debits</h2>
+                            <form className="sorting flex-container">
+                                <label htmlFor="sort">Sort by</label>
+                                <select name="sort" id="sort" onChange={this.handleSorting} defaultValue={this.state.sortBy}>
+                                    <option value="date-desc">Date (Oldest to Newest)</option>
+                                    <option value="date-asc">Date (Newest to Oldest)</option>
+                                    <option value="amount-asc">Amount (Lowest to Highest)</option>
+                                    <option value="amount-desc">Amount (Highest to Lowest)</option>
+                                    <option value="ID">ID</option>
+                                </select>
+                            </form>
+                            <ul>
+                                {this.debitsView()}
+                            </ul>
+                        </section>
+                    </div>
+
+                    <Link to="/" className="btn secondary">Return to Home</Link>  
                 </div>
-            </section>            
+            </div>            
         )
     }
 }
