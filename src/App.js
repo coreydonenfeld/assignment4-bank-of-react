@@ -31,32 +31,37 @@ class App extends Component {
 		};
 	}
 
-	 /**
+	/**
      * Call API endpoint to get data.
      */
-	 async componentDidMount() {
-		// Get credits data from API endpoint
+	async componentDidMount() {
+		
+		/*
+		 * Get credits data from API endpoint.
+		 */
 		try {
-            let response = await axios.get('https://johnnylaicode.github.io/api/credits.json');
-            response.data.forEach((credit) => {
-                if (typeof credit.amount == 'undefined' || typeof credit.description == 'undefined' || typeof credit.date == 'undefined') {
-                    return;
-                }
+			let response = await axios.get('https://johnnylaicode.github.io/api/credits.json');
+			response.data.forEach((credit) => {
+				if (typeof credit.amount == 'undefined' || typeof credit.description == 'undefined' || typeof credit.date == 'undefined') {
+					return;
+				}
 
-                this.addCredit(credit.amount, credit.description, credit.date, credit.id);
-            })
-            this.updateAccountBalance();
-            this.sortCredits();
-        } 
-        catch (error) {
-            if (error.response) {
-                // The request was made, and the server responded with error message and status code.
-                console.log(error.response.data); 
-                console.log(error.response.status);
+				this.addCredit(credit.amount, credit.description, credit.date, credit.id);
+			})
+			this.updateAccountBalance();
+			this.sortCredits();
+		} 
+		catch (error) {
+			if (error.response) {
+				// The request was made, and the server responded with error message and status code.
+				console.log(error.response.data); 
+				console.log(error.response.status);
             }    
         }
 
-		// Get debits data from API endpoint
+		/*
+		 * Get debits data from API endpoint.
+		 */
         try {
             let response = await axios.get('https://johnnylaicode.github.io/api/debits.json');
             response.data.forEach((debit) => {
@@ -78,35 +83,34 @@ class App extends Component {
         }
     }  
 
-	// Update state's currentUser (userName) after "Log In" button is clicked
+	/**
+	 * Mock Log In.
+	 * 
+	 * Update state's currentUser (userName) after "Log In" button is clicked.
+	 * 
+	 * @param {*} logInInfo 
+	 */
 	mockLogIn = (logInInfo) => {
 		const newUser = { ...this.state.currentUser };
 		newUser.userName = logInInfo.userName;
 		this.setState({ currentUser: newUser })
 	}
 
-	/*
-	 * Making the Account Balance Dynamic:
-
-	 * GIVEN I am on any page that displays the Account Balance
-	 * WHEN I view the Account Balance display area
-	 * THEN I shall see an Account Balance that accurately represents my total Debits subtracted from my total Credits
-	 * AND I shall be able to see a negative account balance if I have more Debits than Credits
-	 * AND all amounts are rounded to 2 decimal places (i.e., 1234567.89)
+	/**
+	 * Update state's accountBalance.
 	 * 
-	 * How to Calculate Account Balance:
+	 * Calculate the account balance by subtracting the total debits amount from the total credits amount.
+	 * Then, round the account balance to 2 decimal places.
 	 * 
-	 * Account Balance is the difference between total Credits amount and total Debits amount.
-	 * The mathematical formula is: Account Balance = total Credits - total Debits
+	 * @returns {Number} The account balance.
 	 */
-
 	updateAccountBalance = () => {
 		let accountBalance = 0;
 		let creditsAmount = this.getCreditsAmount();
 		let debitsAmount = this.getDebitsAmount();
 		accountBalance = creditsAmount - debitsAmount;
 
-		// round 2 decimal places
+		// Round 2 decimal places
 		accountBalance = Math.round(accountBalance * 100) / 100;
 
 		// Update state's accountBalance
@@ -115,7 +119,15 @@ class App extends Component {
 		return accountBalance;
 	}
 
-	// add credit
+	/**
+	 * Add a credit.
+	 * 
+	 * @param {Number} amount The credit amount.
+	 * @param {String} description The credit description.
+	 * @param {Date|String} date The credit date.
+	 * @param {Number} id Optional. The credit id. Default is 0 (auto-increment).
+	 * @returns {False|Number} The credit id. False if the credit id already exists.
+	 */
 	addCredit = (amount, description, date, id = 0) => {
 		if (id === 0) {
 			id = this.state.credits.length + 1;
@@ -135,8 +147,15 @@ class App extends Component {
 		let credits = this.state.credits;
 		credits.push(credit);
 		this.setState({ credits: credits });
+		return id;
 	}
 
+	/**
+	 * Get a credit.
+	 * 
+	 * @param {Number} id The credit's id.
+	 * @returns The credit object.
+	 */
 	getCredit = (id) => {
 		let credit = this.state.credits.find((credit) => {
 			return credit.id === id;
@@ -144,6 +163,30 @@ class App extends Component {
 		return credit;
 	}
 
+
+	/**
+	 * Get the total credits amount.
+	 * 
+	 * @returns {Number} The total credits amount.
+	 */
+	getCreditsAmount = () => {
+		let creditsAmount = 0;
+		if (this.state.credits.length === 0) {
+			return creditsAmount;
+		}
+		this.state.credits.forEach((credit) => {
+			creditsAmount += credit.amount;
+		});
+		return creditsAmount;
+	}
+
+	/**
+	 * Sort the credits.
+	 * 
+	 * Sort options are 'date-asc', 'date-desc', 'amount-asc', 'amount-desc'.
+	 * 
+	 * @param {String} sortBy Optional. The sort by option. Default is false (use the current state's sortBy).
+	 */
 	sortCredits = (sortBy = false) => {
 		// Default sort by to the current state's debitsSortBy.
 		if (sortBy === false) {
@@ -184,15 +227,15 @@ class App extends Component {
 		this.setState({ credits: credits, creditsSortBy: sortBy });
 	}
 
-	getCreditsAmount = () => {
-		let creditsAmount = 0;
-		this.state.credits.forEach((credit) => {
-			creditsAmount += credit.amount;
-		});
-		return creditsAmount;
-	}
-
-	// add debit
+	/**
+	 * Add a debit.
+	 * 
+	 * @param {Number} amount The debit amount.
+	 * @param {String} description The debit description.
+	 * @param {Date|String} date The debit date.
+	 * @param {Number} id Optional. The debit id. Default is 0 (auto-increment).
+	 * @returns {False|Number} The debit id. False if the debit id already exists.
+	 */
 	addDebit = (amount, description, date, id = 0) => {
 		if (id === 0) {
 			id = this.state.debits.length + 1;
@@ -212,16 +255,15 @@ class App extends Component {
 		let debits = this.state.debits;
 		debits.push(debit);
 		this.setState({ debits: debits });
+		return id;
 	}
 
-	getDebitsAmount = () => {
-		let debitsAmount = 0;
-		this.state.debits.forEach((debit) => {
-			debitsAmount += debit.amount;
-		});
-		return debitsAmount;
-	}
-
+	/**
+	 * Get a debit.
+	 * 
+	 * @param {Number} id The debit's id.
+	 * @returns The debit object.
+	 */
 	getDebit = (id) => {
 		let debit = this.state.debits.find((debit) => {
 			return debit.id === id;
@@ -229,6 +271,29 @@ class App extends Component {
 		return debit;
 	}
 
+	/**
+	 * Get the total debits amount.
+	 * 
+	 * @returns {Number} The total debits amount.
+	 */
+	getDebitsAmount = () => {
+		let debitsAmount = 0;
+		if (this.state.debits.length === 0) {
+			return debitsAmount;
+		}
+		this.state.debits.forEach((debit) => {
+			debitsAmount += debit.amount;
+		});
+		return debitsAmount;
+	}
+
+	/**
+	 * Sort the debits.
+	 * 
+	 * Sort options are 'date-asc', 'date-desc', 'amount-asc', 'amount-desc'.
+	 * 
+	 * @param {String} sortBy Optional. The sort by option. Default is false (use the current state's sortBy).
+	 */
 	sortDebits = (sortBy = false) => {
 		// Default sort by to the current state's debitsSortBy.
 		if (sortBy === false) {
@@ -269,13 +334,9 @@ class App extends Component {
 		this.setState({ debits: debits, debitsSortBy: sortBy });
 	}
 
-	/*
-	 * lifecycle method componentDidMount() which should include the API requests using the following endpoints:
-	 * Credits API endpoint located at https://johnnylaicode.github.io/api/credits.json
-	 * Debits API endpoint located at https://johnnylaicode.github.io/api/debits.json
+	/**
+	 * Create Routes and React elements to be rendered using React components.
 	 */
-
-	// Create Routes and React elements to be rendered using React components
 	render() {
 		// Create React elements and pass input props to components.
 		const HomeComponent = () => (

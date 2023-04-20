@@ -7,7 +7,6 @@ Note: You need to work on this file for the Assignment.
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import AccountBalance from './AccountBalance';
-import axios from 'axios';
 
 /*
 Viewing the Debits Page:
