@@ -20,6 +20,7 @@ class App extends Component {
 		this.state = {
 			accountBalance: 0,
 			credits: [],
+			creditsSortBy: 'amount-asc',
 			debits: [],
 			debitsSortBy: 'amount-asc',
 			currentUser: {
@@ -67,10 +68,80 @@ class App extends Component {
 	}
 
 	// add credit
-	addCredit = (credit) => {
+	addCredit = (amount, description, date, id = 0) => {
+		if (id === 0) {
+			id = this.state.credits.length + 1;
+		}
+
+		// Prevent duplicate id.
+		if (typeof this.getCredit(parseInt(id)) !== 'undefined') {
+			return false;
+		}
+
+		let credit = {
+			id: id,
+			amount: amount,
+			description: description,
+			date: date
+		};
+		let credits = this.state.credits;
+		credits.push(credit);
+		this.setState({ credits: credit });
 	}
 
 	getCredit = (id) => {
+		let credit = this.state.credits.find((credit) => {
+			return credit.id === id;
+		});
+		return credit;
+	}
+
+	sortCredits = (sortBy = false) => {
+		// Default sort by to the current state's debitsSortBy.
+		if (sortBy === false) {
+			sortBy = this.state.creditsSortBy;
+		}
+
+		let credits = this.state.credits;
+		switch (sortBy) {
+            case 'date-asc':
+                credits.sort((a, b) => {
+                    return new Date(b.date) - new Date(a.date);
+                });
+                break;
+            case 'date-desc':
+                credits.sort((a, b) => {
+					return new Date(a.date) - new Date(b.date);
+                });
+                break;
+            case 'amount-asc':
+                credits.sort((a, b) => {
+                    return a.amount - b.amount;
+                });
+                break;
+            case 'amount-desc':
+                credits.sort((a, b) => {
+                    return b.amount - a.amount;
+                });
+                break;
+			case 'ID':
+				credits.sort((a, b) => {
+					return a.id - b.id;
+				});
+				break;
+            default:
+                break;
+        }
+
+		this.setState({ credits: credits, creditsSortBy: sortBy });
+	}
+
+	getCreditsAmount = () => {
+		let creditsAmount = 0;
+		this.state.credits.forEach((credit) => {
+			creditsAmount += credit.amount;
+		});
+		return creditsAmount;
 	}
 
 	// add debit
@@ -169,7 +240,14 @@ class App extends Component {
 			<LogIn user={this.state.currentUser} mockLogIn={this.mockLogIn} />
 		)
 		const CreditsComponent = () => (
-			<Credits credits={this.state.credits} />
+			<Credits
+				credits={this.state.credits}
+				creditsSortBy={this.state.creditsSortBy}
+				addCredit={this.addCredit}
+				sortCredits={this.sortCredits}
+				accountBalance={this.state.accountBalance}
+				updateAccountBalance={this.updateAccountBalance}
+			/>
 		)
 		const DebitsComponent = () => (
 			<Debits

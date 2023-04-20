@@ -161,7 +161,7 @@ class Debits extends Component {
                     <AccountBalance accountBalance={this.props.accountBalance} />
 
                     <div className="modules grid">
-                        <section className="add-debit module">
+                        <section className="add-item module">
                             <h2 className="heading-4">Add Debit</h2>
                             <form onSubmit={this.handleSubmit} className="grid">
                                 <div className="form-input-wrapper">
@@ -176,7 +176,7 @@ class Debits extends Component {
                             </form>
                         </section>
                         
-                        <section className="view-debits module grid">
+                        <section className="view-items module grid">
                             <h2 className="heading-4">View Debits</h2>
                             <form className="sorting flex-container">
                                 <label htmlFor="sort">Sort by</label>
