@@ -177,6 +177,7 @@ class App extends Component {
 		this.state.credits.forEach((credit) => {
 			creditsAmount += credit.amount;
 		});
+		creditsAmount = Math.round(creditsAmount * 100) / 100;
 		return creditsAmount;
 	}
 
@@ -284,6 +285,7 @@ class App extends Component {
 		this.state.debits.forEach((debit) => {
 			debitsAmount += debit.amount;
 		});
+		debitsAmount = Math.round(debitsAmount * 100) / 100;
 		return debitsAmount;
 	}
 
@@ -340,7 +342,11 @@ class App extends Component {
 	render() {
 		// Create React elements and pass input props to components.
 		const HomeComponent = () => (
-			<Home accountBalance={this.state.accountBalance} />
+			<Home
+				accountBalance={this.state.accountBalance} 
+				debitsAmount={this.getDebitsAmount}
+				creditsAmount={this.getCreditsAmount}
+			/>
 		)
 		const UserProfileComponent = () => (
 			<UserProfile userName={this.state.currentUser.userName} memberSince={this.state.currentUser.memberSince} />
@@ -356,6 +362,8 @@ class App extends Component {
 				sortCredits={this.sortCredits}
 				accountBalance={this.state.accountBalance}
 				updateAccountBalance={this.updateAccountBalance}
+				debitsAmount={this.getDebitsAmount}
+				creditsAmount={this.getCreditsAmount}
 			/>
 		)
 		const DebitsComponent = () => (
@@ -366,6 +374,8 @@ class App extends Component {
 				sortDebits={this.sortDebits}
 				accountBalance={this.state.accountBalance}
 				updateAccountBalance={this.updateAccountBalance}
+				debitsAmount={this.getDebitsAmount}
+				creditsAmount={this.getCreditsAmount}
 			/>
 		)
 

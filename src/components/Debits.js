@@ -127,9 +127,13 @@ class Debits extends Component {
         return (
             <div>
                 <div className="container">
-                    <h1>Debits</h1>
+                    <h1 className="heading-2 page-title">Debits</h1>
 
-                    <AccountBalance accountBalance={this.props.accountBalance} />
+                    <AccountBalance
+                        accountBalance={this.props.accountBalance}
+                        debitsAmount={this.props.debitsAmount}
+                        creditsAmount={this.props.creditsAmount}
+                    />
 
                     <div className="modules grid">
                         <section className="add-item module">

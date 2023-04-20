@@ -10,9 +10,23 @@ class AccountBalance extends Component {
     // Display account balance
     render() {
         return (
-            <div>
-                Balance: {this.props.accountBalance}
-            </div>
+            <section className="account-balance">
+                <ul className="flex-container">
+                    <li>
+                        <p className="eyebrow">Credits</p>
+                        <p className="heading-5 amount">{this.props.creditsAmount()}</p>
+                    </li>
+                    <li>
+                        <p className="eyebrow">Debits</p>
+                        <p className="heading-5 amount">{this.props.debitsAmount()}</p>
+                    </li>
+                    <li>
+                        <p className="eyebrow">Account Balance</p>
+                        <p className="heading-5 amount">{this.props.accountBalance}</p>
+                    </li>
+                </ul>
+                
+            </section>
         );
     }
 }

@@ -429,6 +429,43 @@ header {
 	background: var(--white);
 }
 
+.page-title {
+	padding: var(--padding-xs) 0;
+}
+
+.account-balance {
+	background: var(--blue-dark);
+	border-radius: 4px;
+	padding: var(--padding-xxs) var(--padding-s);
+	margin: 0 0 var(--padding-s);
+}
+
+.account-balance ul {
+	list-style: none;
+	margin: 0;
+	justify-content: flex-start;
+	gap: var(--padding-m);
+	padding: 0;
+}
+
+.account-balance p {
+	margin: 0;
+}
+
+.account-balance li:last-child {
+	margin-left: auto;
+	text-align: right;
+}
+
+.account-balance .eyebrow {
+	color: var(--gray-light);
+}
+
+.account-balance .amount {
+	margin-top: 6px;
+	color: var(--white);
+}
+
 /***************************************************************************************************************************************************************************************/
 
 /*DEBITS AND CREDITS STYLES*/
