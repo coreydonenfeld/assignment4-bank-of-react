@@ -94,7 +94,7 @@ class Credits extends Component {
                         <dt className="eyebrow">Description</dt>
                         <dd>{credit.description}</dd>
                         <dt className="eyebrow">Amount</dt>
-                        <dd>${credit.amount.toFixed(2)}</dd>
+                        <dd>${credit.amount.toLocaleString(undefined, {maximumFractionDigits: 2})}</dd>
                         <dt className="eyebrow">Date</dt>
                         <dd>{date}</dd>
                     </dl>

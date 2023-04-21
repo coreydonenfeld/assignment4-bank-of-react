@@ -114,7 +114,7 @@ class Debits extends Component {
                         <dt className="eyebrow">Description</dt>
                         <dd>{debit.description}</dd>
                         <dt className="eyebrow">Amount</dt>
-                        <dd>${debit.amount.toFixed(2)}</dd>
+                        <dd>${debit.amount.toLocaleString(undefined, {maximumFractionDigits: 2})}</dd>
                         <dt className="eyebrow">Date</dt>
                         <dd>{date}</dd>
                     </dl>
