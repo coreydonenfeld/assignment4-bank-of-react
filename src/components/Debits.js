@@ -6,7 +6,6 @@ Note: You need to work on this file for the Assignment.
 ==================================================*/
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';  // Library used to send asynchronous HTTP requests to RESTful endpoints (APIs)
 import AccountBalance from './AccountBalance';
 
 /*
@@ -49,34 +48,6 @@ class Debits extends Component {
             sortBy: this.props.debitsSortBy
         }
     }
-
-    /**
-     * Call API endpoint to get data.
-     */
-    async componentDidMount() {
-        const endpointURL = 'https://johnnylaicode.github.io/api/debits.json';
-
-        try {
-            let response = await axios.get(endpointURL);
-            response.data.forEach((debit) => {
-                if (typeof debit.amount == 'undefined' || typeof debit.description == 'undefined' || typeof debit.date == 'undefined') {
-                    return;
-                }
-
-                this.props.addDebit(debit.amount, debit.description, debit.date, debit.id);
-            })
-            this.props.updateAccountBalance();
-            this.props.sortDebits();
-        } 
-        catch (error) {
-            if (error.response) {
-                // The request was made, and the server responded with error message and status code.
-                console.log(error.response.data); 
-                console.log(error.response.status);
-            }    
-        }
-    }  
-
 
     /**
      * Handle the form submission.
@@ -143,7 +114,7 @@ class Debits extends Component {
                         <dt className="eyebrow">Description</dt>
                         <dd>{debit.description}</dd>
                         <dt className="eyebrow">Amount</dt>
-                        <dd>${debit.amount.toFixed(2)}</dd>
+                        <dd>${debit.amount.toLocaleString(undefined, {maximumFractionDigits: 2})}</dd>
                         <dt className="eyebrow">Date</dt>
                         <dd>{date}</dd>
                     </dl>
@@ -156,12 +127,16 @@ class Debits extends Component {
         return (
             <div>
                 <div className="container">
-                    <h1>Debits</h1>
+                    <h1 className="heading-2 page-title">Debits</h1>
 
-                    <AccountBalance accountBalance={this.props.accountBalance} />
+                    <AccountBalance
+                        accountBalance={this.props.accountBalance}
+                        debitsAmount={this.props.debitsAmount}
+                        creditsAmount={this.props.creditsAmount}
+                    />
 
                     <div className="modules grid">
-                        <section className="add-debit module">
+                        <section className="add-item module">
                             <h2 className="heading-4">Add Debit</h2>
                             <form onSubmit={this.handleSubmit} className="grid">
                                 <div className="form-input-wrapper">
@@ -176,7 +151,7 @@ class Debits extends Component {
                             </form>
                         </section>
                         
-                        <section className="view-debits module grid">
+                        <section className="view-items module grid">
                             <h2 className="heading-4">View Debits</h2>
                             <form className="sorting flex-container">
                                 <label htmlFor="sort">Sort by</label>
