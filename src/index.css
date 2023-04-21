@@ -295,6 +295,7 @@ input[type=email],
 input[type=text],
 input[type=tel],
 input[type=number],
+input[type=password],
 select,
 textarea {
 	appearance: none;
@@ -309,6 +310,7 @@ input[type=email]:hover,
 input[type=text]:hover,
 input[type=tel]:hover,
 input[type=number]:hover,
+input[type=password]:hover,
 select:hover,
 textarea:hover {
 	border-color: var(--gray-dark);
@@ -318,6 +320,7 @@ input[type=email]:focus,
 input[type=text]:focus,
 input[type=tel]:focus,
 input[type=number]:focus,
+input[type=password]:focus,
 select:focus,
 textarea:focus {
 	border-color: var(--blue);
@@ -328,97 +331,10 @@ input[type=email]::placeholder,
 input[type=text]::placeholder,
 input[type=tel]::placeholder,
 input[type=number]::placeholder,
+input[type=password]::placeholder,
 select::placeholder,
 textarea::placeholder {
 	opacity: 1;
-}
-
-/***************************************************************************************************************************************************************************************/
-
-/*HEADER STYLES*/
-
-/***************************************************************************************************************************************************************************************/
-
-header {
-	
-}
-
-/***Alert Bar***/
-
-.alert-bar {
-	background: var(--black);
-	color: var(--white);
-	left: 0;
-	margin: 0;
-	overflow-x: auto;
-	overflow-y: hidden;
-	padding: 10px;
-	position: absolute;
-	text-align: center;
-	top: 0;
-	white-space: nowrap;
-	width: 100%;
-	z-index: 4;
-}
-
-/***************************************************************************************************************************************************************************************/
-
-/*FOOTER STYLES*/
-
-/***************************************************************************************************************************************************************************************/
-
-/***Sticky Toast***/
-
-.sticky-toast {
-	background: var(--black);
-	border-radius: 50px 0;
-	bottom: 10px;
-	box-shadow: -15px 15px 40px rgba(0,0,0,.15);
-	color: var(--white);
-	max-width: 90vw;
-	opacity: 1;
-	padding: 32px 30px 30px;
-	pointer-events: auto;
-	position: fixed;
-	right: 6px;
-	transition: opacity .1s ease, visibility .1s ease;
-	visibility: visible;
-	width: 360px;
-	z-index: 99;
-}
-
-.sticky-toast.hidden {
-	opacity: 0;
-	pointer-events: none;
-	visibility: hidden;
-}
-
-.sticky-toast button {
-	background: none;
-	border: none;
-	border-radius: 0;
-	color: var(--white);
-	font-size: calc(18rem/16);
-	line-height: 0;
-	padding: 9px 12px;
-	position: absolute;
-	right: 0;
-	top: 0;
-}
-
-.sticky-toast button:hover {
-	opacity: .6;
-}
-
-.sticky-toast h2 {
-	color: var(--white);
-	font-family: var(--body-font);
-	font-weight: bold;
-	margin-bottom: 2px;
-}
-
-.sticky-toast p {
-	margin-bottom: 8px;
 }
 
 /***************************************************************************************************************************************************************************************/
@@ -430,8 +346,8 @@ header {
 .modules {
 	align-items: flex-start;
 	border: 1px solid var(--gray-medium);
-	border-radius: 4px;
-	padding: var(--gap);
+	border-radius: 6px;
+	padding: var(--padding-xxs);
 }
 
 .module {
@@ -445,9 +361,13 @@ header {
 	margin: var(--padding-s) 0;
 }
 
+/***Page Title***/
+
 .page-title {
 	padding: var(--padding-xs) 0;
 }
+
+/***Account Balance***/
 
 .account-balance {
 	background: var(--blue-dark);
@@ -508,9 +428,47 @@ header {
 
 /***************************************************************************************************************************************************************************************/
 
+/*USER PROFILE AND LOGIN STYLES*/
+
+/***************************************************************************************************************************************************************************************/
+
+.user-profile {
+	grid-column: -1 / 1;
+	padding-bottom: var(--padding-xs);
+}
+
+.user-profile ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.user-profile ul li {
+	grid-column: span 4;
+}
+
+.user-profile .eyebrow {
+	margin-bottom: 8px;
+}
+
+.user-profile form .form-input-wrapper {
+	margin-bottom: 20px;
+}
+
+.user-profile form .form-input-wrapper:last-of-type {
+	margin-bottom: 30px;
+}
+
+/***************************************************************************************************************************************************************************************/
+
 /*DEBITS AND CREDITS STYLES*/
 
 /***************************************************************************************************************************************************************************************/
+
+.page-title + .account-balance {
+	position: sticky;
+	top: var(--padding-xxs);
+}
 
 /***Add Items***/
 

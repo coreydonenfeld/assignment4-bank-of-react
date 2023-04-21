@@ -44,21 +44,27 @@ class LogIn extends Component {
         // Render the login form (and call "handleSubmit" method when "Log In" button is clicked to submit form)
         return (
             <div>
-                <h1>Login</h1>
+                <div className="container">
+                    <h1 className="heading-2 page-title">Login</h1>
 
-                <form onSubmit={this.handleSubmit}>
-                    <div>
-                        <label>User Name</label>
-                        <input type="text" name="userName" defaultValue={this.props.user.userName} onChange={this.handleChange} />
+                    <div className="modules grid">
+                        <section className="module user-profile">
+                            <form onSubmit={this.handleSubmit}>
+                                <div className="form-input-wrapper">
+                                    <label for="userName">User Name</label>
+                                    <input type="text" name="userName" defaultValue={this.props.user.userName} onChange={this.handleChange} />
+                                </div>
+                                <div className="form-input-wrapper">
+                                    <label for="password">Password</label>
+                                    <input type="password" name="password" />
+                                </div>
+                                <button type="submit" className="btn primary">Log in</button>
+                            </form>
+                        </section>
                     </div>
-                    <div>
-                        <label>Password</label>
-                        <input type="password" name="password" />
-                    </div>
-                    <button>Log In</button>
-                </form>
-                <br />
-                <Link to="/">Return to Home</Link>
+
+                    <Link to="/" className="btn secondary">Return to Home</Link>  
+                </div>
             </div>
         );
     }
