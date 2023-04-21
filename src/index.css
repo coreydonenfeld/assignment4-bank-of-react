@@ -429,6 +429,10 @@ header {
 	background: var(--white);
 }
 
+.modules + .btn.secondary {
+	margin: var(--padding-s) 0;
+}
+
 .page-title {
 	padding: var(--padding-xs) 0;
 }
